@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+//************** use UnityOSC namespace...
+using UnityOSC;
+//*************
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public TMP_Text backText;
 
     public float moveForce;
-    public float maxMoveSpeed;
+    public float maxMoveSpeed =0.1f;
     public float maxFallSpeed;
 
     public float waitTimeAfterHit = 1.5f;
@@ -24,8 +27,21 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveInput;
     private Rigidbody _rb;
 
+    string[] sounds = { "kick", "snare", "hihat","melody","snare2","beep"};
+
+
+
+
     void Start()
     {
+
+        //************* Instantiate the OSC Handler...
+        OSCHandler.Instance.Init();
+        //OSCHandler.Instance.SendMessageToClient("pd", "/unity/trigger", "ready");
+        OSCHandler.Instance.SendMessageToClient("pd", "/unity/playseq", 1);
+        OSCHandler.Instance.SendMessageToClient("pd", "/unity/" + sounds[0], 1);
+        //*************
+
         _rb = GetComponent<Rigidbody>();
         goalText.gameObject.SetActive(false);
         backText.gameObject.SetActive(false);
@@ -49,12 +65,30 @@ public class PlayerController : MonoBehaviour
             {
                 _score = tempScore;
                 scoreText.text = "Score: " + _score;
+
+                //if(_score == 1) {
+                //    OSCHandler.Instance.SendMessageToClient("pd", "/unity/snare", 1);
+                //    OSCHandler.Instance.SendMessageToClient("pd", "/unity/hihat", 1);
+                //}
+                //else if(_score >= 3) {
+                //    OSCHandler.Instance.SendMessageToClient("pd", "/unity/" + sounds[_score], 1);
+                //}
+
+
+                ////layering instruments
+                if (_score < sounds.Length)
+                {
+                    print("playing: " + sounds[_score]);
+                    OSCHandler.Instance.SendMessageToClient("pd", "/unity/" + sounds[_score], 1);
+                }
+
             }
         }
         else
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                OSCHandler.Instance.SendMessageToClient("pd", "/unity/playseq", 1);
                 BackToStartPoint();
             }
         }
@@ -70,6 +104,12 @@ public class PlayerController : MonoBehaviour
             }
         }
         _rb.velocity = new Vector3(Mathf.Clamp(_rb.velocity.x, -maxMoveSpeed, maxMoveSpeed), Mathf.Clamp(_rb.velocity.y, -maxFallSpeed, maxFallSpeed), Mathf.Clamp(_rb.velocity.z, -maxMoveSpeed, maxMoveSpeed));
+
+        //************* Routine for receiving the OSC...
+        OSCHandler.Instance.UpdateLogs();
+        Dictionary<string, ServerLog> servers = new Dictionary<string, ServerLog>();
+        servers = OSCHandler.Instance.Servers;
+        //*************
     }
 
     private void BackToStartPoint()
@@ -77,6 +117,12 @@ public class PlayerController : MonoBehaviour
         backText.gameObject.SetActive(false);
         _isFailed = false;
         transform.position = startPoint.position;
+        //layering instruments
+
+        for(int i = 0;i< sounds.Length; i++) {
+            OSCHandler.Instance.SendMessageToClient("pd", "/unity/" + sounds[i], 1);
+        }
+        OSCHandler.Instance.SendMessageToClient("pd", "/unity/kick", 1);
     }
 
     private void OnCollisionEnter(Collision collision)
