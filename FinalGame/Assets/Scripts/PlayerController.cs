@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
         OSCHandler.Instance.SendMessageToClient("pd", "/unity/" + sounds[0], 1);
         //*************
 
+        //Reset bpm at the beginning
+        OSCHandler.Instance.SendMessageToClient("pd", "/unity/resetBpm", 1);
         _rb = GetComponent<Rigidbody>();
         goalText.gameObject.SetActive(false);
         backText.gameObject.SetActive(false);
@@ -65,6 +67,11 @@ public class PlayerController : MonoBehaviour
             {
                 _score = tempScore;
                 scoreText.text = "Score: " + _score;
+                
+                //Not sure what score does
+                //OSCHandler.Instance.SendMessageToClient("pd", "/unity/score", _score);
+                OSCHandler.Instance.SendMessageToClient("pd", "/unity/pitch", 1);
+                OSCHandler.Instance.SendMessageToClient("pd", "/unity/point", 1);
 
                 //if(_score == 1) {
                 //    OSCHandler.Instance.SendMessageToClient("pd", "/unity/snare", 1);
@@ -117,6 +124,9 @@ public class PlayerController : MonoBehaviour
         backText.gameObject.SetActive(false);
         _isFailed = false;
         transform.position = startPoint.position;
+        OSCHandler.Instance.SendMessageToClient("pd", "/unity/resetBpm", 1);
+        OSCHandler.Instance.SendMessageToClient("pd", "/unity/resetPitch", 1);
+        
         //layering instruments
 
         for(int i = 0;i< sounds.Length; i++) {
@@ -131,7 +141,13 @@ public class PlayerController : MonoBehaviour
         {
             backText.gameObject.SetActive(true);
             _isFailed = true;
+            OSCHandler.Instance.SendMessageToClient("pd", "/unity/loss", 1);
             Invoke("BackToStartPoint", waitTimeAfterHit);
+        }
+
+        if (collision.transform.CompareTag("Goal"))
+        {
+            OSCHandler.Instance.SendMessageToClient("pd", "/unity/Victory", 1);
         }
     }
 
