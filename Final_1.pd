@@ -250,7 +250,7 @@
 #X connect 7 0 1 0;
 #X restore 2386 230 pd oscSend;
 #X obj 2384 425 s oscOut;
-#X obj 1375 97 r oscplayseq;
+#X obj 1378 102 r oscplayseq;
 #X obj 660 697 r osckick;
 #X text 1218 223 Ensure the sequence starts from 0, f 19;
 #X obj -54 2102 r pattern;
@@ -517,10 +517,10 @@
 #X obj 2427 1822 receive Fifteen;
 #X obj 2544 1821 receive Sixteen;
 #X obj 995 1902 spigot;
-#X obj 923 1935 tgl 19 1 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000 1 1;
+#X obj 923 1935 tgl 19 1 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000 0 1;
 #X obj 994 1949 send melody;
 #X text 871 1854 MUTE MELODY;
-#X obj 797 1916 r oscmelody;
+#X obj 751 1891 r oscmelody;
 #X obj 1480 1849 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
 #X obj 1588 1849 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
 #X obj 1681 1848 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
@@ -780,7 +780,7 @@
 #X obj 152 758 receive beep;
 #X text 690 1257 MUTE HIMAT;
 #X obj 510 1017 r oscsnare;
-#X obj 832 2030 r oscbeep;
+#X obj 757 2006 r oscbeep;
 #X obj 285 400 random 3;
 #X obj 366 400 random 3;
 #X obj 443 402 random 3;
@@ -869,7 +869,7 @@
 #X obj 1967 1463 spigot;
 #X obj 1293 1403 tgl 19 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000 0 1;
 #X obj 1967 1501 send snare2;
-#X obj 1196 1383 r oscsnare2;
+#X obj 1161 1365 r oscsnare2;
 #X obj 1584 1362 < 20;
 #X obj 1777 1352 < 80;
 #X obj 1963 1335 < 30;
@@ -921,7 +921,7 @@
 #X obj 1670 969 < 85;
 #X obj 2061 968 < 90;
 #X obj 2809 976 < 90;
-#X obj 565 1270 r oschihat;
+#X obj 508 1269 r oschihat;
 #X text 3447 30 SFX;
 #X text 3640 394 Sound which will increase in pitch when more points are scored;
 #X obj 3651 103 t b b;
@@ -995,6 +995,13 @@
 #X text 4150 99 Win sound!;
 #X floatatom 4183 198 5 0 0 0 - - - 0;
 #X obj 3651 50 r oscloss;
+#X obj 1395 141 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
+#X obj 752 725 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
+#X obj 545 1066 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
+#X obj 579 1311 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
+#X obj 1225 1418 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
+#X obj 751 1915 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
+#X obj 811 2041 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
 #X connect 0 0 1 0;
 #X connect 2 0 257 0;
 #X connect 3 0 4 1;
@@ -1096,8 +1103,8 @@
 #X connect 109 0 111 0;
 #X connect 111 0 114 0;
 #X connect 112 0 111 0;
-#X connect 115 0 5 0;
-#X connect 116 0 68 0;
+#X connect 115 0 860 0;
+#X connect 116 0 861 0;
 #X connect 118 0 239 0;
 #X connect 119 0 120 0;
 #X connect 120 0 121 0;
@@ -1379,7 +1386,7 @@
 #X connect 380 0 372 0;
 #X connect 381 0 383 0;
 #X connect 382 0 381 1;
-#X connect 385 0 382 0;
+#X connect 385 0 865 0;
 #X connect 386 0 405 0;
 #X connect 387 0 381 0;
 #X connect 387 0 406 0;
@@ -1625,8 +1632,8 @@
 #X connect 639 0 233 0;
 #X connect 640 0 237 0;
 #X connect 642 0 269 0;
-#X connect 644 0 533 0;
-#X connect 645 0 259 0;
+#X connect 644 0 862 0;
+#X connect 645 0 866 0;
 #X connect 646 0 605 0;
 #X connect 647 0 612 0;
 #X connect 648 0 619 0;
@@ -1713,7 +1720,7 @@
 #X connect 730 0 723 0;
 #X connect 731 0 733 0;
 #X connect 732 0 731 1;
-#X connect 734 0 732 0;
+#X connect 734 0 864 0;
 #X connect 735 0 710 0;
 #X connect 736 0 712 0;
 #X connect 737 0 714 0;
@@ -1764,7 +1771,7 @@
 #X connect 783 0 516 0;
 #X connect 784 0 520 0;
 #X connect 785 0 573 0;
-#X connect 786 0 329 0;
+#X connect 786 0 863 0;
 #X connect 789 0 792 0;
 #X connect 790 0 791 0;
 #X connect 791 0 793 0;
@@ -1840,3 +1847,10 @@
 #X connect 856 0 851 0;
 #X connect 858 0 844 1;
 #X connect 859 0 795 0;
+#X connect 860 0 5 0;
+#X connect 861 0 68 0;
+#X connect 862 0 533 0;
+#X connect 863 0 329 0;
+#X connect 864 0 732 0;
+#X connect 865 0 382 0;
+#X connect 866 0 259 0;

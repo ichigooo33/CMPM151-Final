@@ -1560,7 +1560,12 @@ PrefabInstance:
     - target: {fileID: 4807524408216866020, guid: 4278518a19215ea4991da02c93082a96,
         type: 3}
       propertyPath: maxFallSpeed
-      value: 50
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003162122654025137, guid: 4278518a19215ea4991da02c93082a96,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6920313532287488693, guid: 4278518a19215ea4991da02c93082a96,
         type: 3}

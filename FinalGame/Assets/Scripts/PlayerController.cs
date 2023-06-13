@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public float maxFallSpeed;
 
     public float waitTimeAfterHit = 1.5f;
+    
+    public List<string> tempInstrumentList;
 
     private bool _isFailed;
     private int _score;
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour
         //*************
 
         //Reset bpm at the beginning
-        OSCHandler.Instance.SendMessageToClient("pd", "/unity/resetBpm", 1);
+        //OSCHandler.Instance.SendMessageToClient("pd", "/unity/resetBpm", 1);
         _rb = GetComponent<Rigidbody>();
         goalText.gameObject.SetActive(false);
         backText.gameObject.SetActive(false);
@@ -86,6 +88,7 @@ public class PlayerController : MonoBehaviour
                 if (_score < sounds.Length)
                 {
                     print("playing: " + sounds[_score]);
+                    tempInstrumentList.Add(sounds[_score]);
                     OSCHandler.Instance.SendMessageToClient("pd", "/unity/" + sounds[_score], 1);
                 }
 
@@ -124,15 +127,24 @@ public class PlayerController : MonoBehaviour
         backText.gameObject.SetActive(false);
         _isFailed = false;
         transform.position = startPoint.position;
-        OSCHandler.Instance.SendMessageToClient("pd", "/unity/resetBpm", 1);
+        //OSCHandler.Instance.SendMessageToClient("pd", "/unity/resetBpm", 1);
         OSCHandler.Instance.SendMessageToClient("pd", "/unity/resetPitch", 1);
         
         //layering instruments
 
-        for(int i = 0;i< sounds.Length; i++) {
+        /*for(int i = 0;i< sounds.Length; i++) {
             OSCHandler.Instance.SendMessageToClient("pd", "/unity/" + sounds[i], 1);
+        }*/
+        
+        //OSCHandler.Instance.SendMessageToClient("pd", "/unity/playseq", 1);
+
+        foreach (var activeInstrument in tempInstrumentList)
+        {
+            OSCHandler.Instance.SendMessageToClient("pd", "/unity/" + activeInstrument, 1);
         }
         OSCHandler.Instance.SendMessageToClient("pd", "/unity/kick", 1);
+
+        tempInstrumentList = new List<string>();
     }
 
     private void OnCollisionEnter(Collision collision)
